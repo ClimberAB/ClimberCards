@@ -1,0 +1,9 @@
+{
+	"name" : "Climber Cards",
+	"description" : "List of cards with images and dimensions and measures",
+	"icon" : "list",
+	"type" : "visualization",
+	"version": "@@version",
+	"preview" : "cards.png",
+	"author": "Karl Fredberg Sjöstrand"
+}
