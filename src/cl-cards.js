@@ -70,6 +70,9 @@ define([
                 var dimcount = layout.qHyperCube.qDimensionInfo.length;
                 var mainValueTitle = layout.qHyperCube.qMeasureInfo[0].qFallbackTitle;
 
+                this.$scope.selectedCount = layout.qHyperCube.qDimensionInfo[0].qStateCounts.qSelected + layout.qHyperCube.qDimensionInfo[0].qStateCounts.qSelectedExcluded;
+
+
                 if (layout.qHyperCube.qDataPages[0]) {
                     this.$scope.dataPages = _.map(layout.qHyperCube.qDataPages[0].qMatrix, function(row, idx) {
                         return {
@@ -97,6 +100,7 @@ define([
                 $scope.dataPages = {};
                 $scope.backendApi = {};
                 $scope.props = {};
+                $scope.selectedCount = 0;
 
 
 
@@ -107,8 +111,8 @@ define([
                     values_to_select: [],
                 };
 
-                $scope.getCardSize = function () { 
-                    switch($scope.props.layoutMode) {
+                $scope.getCardSize = function() {
+                    switch ($scope.props.layoutMode) {
                         case 'SMALL':
                             return 35;
                             break;
@@ -135,19 +139,22 @@ define([
 
                 $scope.clickCard = function($event, qElemNumber) {
 
-                    if ($scope.props.selectOneAndGoto) { 
-                        $scope.backendApi.selectValues(0, [parseInt(qElemNumber)], true).then(function(reply){
-                            //Goto sheet
-                            if (!_.isEmpty($scope.props.selectedSheet ) ) {
-                                qlik.navigation.gotoSheet( $scope.props.selectedSheet );
-                            }  
-                        });
-                                          
+                    if ($scope.selectedCount == 1) {
+                        $scope.backendApi.selectValues(0, [parseInt(qElemNumber)], true)
                     } else {
-                        $($event.originalEvent.target).toggleClass('selected')
-                        $scope.selectValues(0, [parseInt(qElemNumber)], true);
+                        if ($scope.props.selectOneAndGoto) {
+                            $scope.backendApi.selectValues(0, [parseInt(qElemNumber)], false).then(function(reply) {
+                                //Goto sheet
+                                if (!_.isEmpty($scope.props.selectedSheet)) {
+                                    qlik.navigation.gotoSheet($scope.props.selectedSheet);
+                                }
+                            });
+                        } else {
+                            $($event.originalEvent.target).toggleClass('selected')
+                            $scope.selectValues(0, [parseInt(qElemNumber)], false);
+                        }
                     }
-                }
+                };
 
                 $scope.onSwipeStart = function($event) {
 
@@ -169,7 +176,7 @@ define([
                                 $(target).addClass('selected');
                             } else {
                                 $scope.selections.values_to_select.push(value);
-                               $(target).removeClass('selected');
+                                $(target).removeClass('selected');
                             }
                         }
                     }
@@ -181,7 +188,7 @@ define([
                         var target = $($event.originalEvent.target);
 
                         var idx = parseInt(target.attr('idx'));
-                        
+
                         var updateSelection = $scope.selections.swipe_idx_min > idx || $scope.selections.swipe_idx_max < idx;
 
                         if (updateSelection && !isNaN(idx)) {
@@ -227,13 +234,13 @@ define([
                 $scope.onSwipe = function($event) {
 
                     if (!$scope.props.selectOneAndGoto) {
-                   
+
                         $scope.selections.swipe_idx_min = -1;
                         $scope.selections.swipe_idx_max = -1;
 
                         if ($scope.selections.values_to_select != []) {
                             console.log('Select values', $scope.selections);
-                            if($scope.selections.selectionsMode) {                            
+                            if ($scope.selections.selectionsMode) {
                                 $scope.selectValues(0, $scope.selections.values_to_select, true);
                             } else {
                                 $scope.selectValues(0, $scope.selections.values_to_select, true);
