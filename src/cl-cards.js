@@ -38,8 +38,8 @@ define([
             },
 
 
-            resize: function( /*$element, layout*/ ) {
-                //do nothing
+            resize: function( $element, layout ) {
+                this.paint($element, layout);
             },
 
             clearSelectedValues: function($element) {
@@ -129,7 +129,7 @@ define([
                 };
 
                 $scope.compactLayout = function() {
-                    return $element.context.clientWidth < 350;
+                    return $element.width() < 350;
                 };
 
                 // $scope.$on('onLastRepeat', function(scope, element, attrs) {

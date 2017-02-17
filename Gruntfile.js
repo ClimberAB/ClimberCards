@@ -10,10 +10,10 @@ module.exports = function (grunt) {
 
     var cfg = {};
     // parse all configured tasks automatically:
-    fs.readdirSync( "./" ).forEach( function ( file ) {
+    fs.readdirSync( "./grunt" ).forEach( function ( file ) {
         if ( file.indexOf( "Gruntfile." ) === 0 && file !== "Gruntfile.js" ) {
             var name = file.split( "Gruntfile." )[1].split( ".js" )[0];
-            cfg[name] = require( "./Gruntfile." + name )( grunt );
+            cfg[name] = require( "./grunt/Gruntfile." + name )( grunt );
         }
     } );
 

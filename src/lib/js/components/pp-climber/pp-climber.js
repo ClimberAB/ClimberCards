@@ -1,6 +1,6 @@
 define( ["client.property-panel/components/components", "client.property-panel/component-utils", "translator", "require"], function (components, componentUtils, translator, require) {
 	
-	var ngTemplate = '<div><a href="https://goo.gl/epyPto" target="_blank" title="climber.eu" style="height:0px;"><img style="max-width:250px" qva-prevent-drag ng-if="label" title="climber.eu" alt="climber.eu" ng-src="/extensions/cl-cards/lib/js/components/pp-climber/pp-climber-cards.png" style="padding:0px;"/></a></div>';
+	var ngTemplate = '<div><a href="https://goo.gl/epyPto" target="_blank" title="climber.eu" style="height:0px;"><img style="max-width:250px" qva-prevent-drag ng-if="label" title="climber.eu" alt="climber.eu" ng-src="/extensions/cl-cards/lib/js/components/pp-climber/pp-climber-cards.png" style="padding:0px;"/></a></div><div  style="text-align:right; padding-right:5px;">Version: @@version</div>';
 
 	var component = {
 		template: ngTemplate,
