@@ -5,7 +5,7 @@ define( [
 	'qlik',
 	'ng!$q',
 	'ng!$http',
-	'./lib/js/components/pp-climber/pp-climber'
+	'./lib/js/components/pp-cl-about/pp-cl-about'
 ], function ( $, _, qlik, $q, $http ) {
 
 	var app = qlik.currApp();
@@ -67,7 +67,7 @@ define( [
 	// Property Panel Definition
 	// ****************************************************************************************
 	 var about = {
-        component: "pp-cl-cards",
+        component: "pp-@@extensionnamespace@@extensionnamesafe",
         translation: "Common.About",
         show: true,
     };
@@ -90,15 +90,7 @@ define( [
 		]
 	};
 
-	var sheetId = {
-		ref: "props.sheetId",
-		label: "Sheet ID",
-		type: "string",
-		expression: "optional",
-		show: function ( data ) {
-			return data.props.selectOneAndGoto;
-		}
-	};
+
 
 	var sheetList = {
 		type: "string",
@@ -115,12 +107,93 @@ define( [
 		}
 	};
 
+	var actionBeforeNavigation = {
+	    type: "string",
+	    component: "dropdown",
+	    label: "Layout Mode",
+	    ref: "props.actionBeforeNavigation",
+	    defaultValue: "none",
+	    options: [{
+	      value: "none",
+	      label: "None",
+	    }, {
+	      value: "selectValueInField",
+	      label: "Select value in field",
+	    }, {
+	      value: "selectValuesInField",
+	      label: "Select values in field",
+	    }, {
+	      value: "setVariable",
+	      label: "Set variable",
+	    }],
+		show: function ( data ) {
+			return data.props.selectOneAndGoto;
+		}
+		
+	};
+
+	var field = {
+		ref: "props.field",
+		label: "Field",
+		type: "string",
+		expression: "optional",
+		show: function ( data ) {
+			return data.props.selectOneAndGoto && (data.props.actionBeforeNavigation === 'selectValueInField' || data.props.actionBeforeNavigation === 'selectValuesInField' );
+		}
+	};
+
+	var value = {
+		ref: "props.value",
+		label: "Value",
+		type: "string",
+		expression: "optional",
+		show: function ( data ) {
+			return data.props.selectOneAndGoto && data.props.actionBeforeNavigation === 'selectValueInField' ;
+		}
+	};
+
+	var values = {
+		ref: "props.values",
+		label: "Values",
+		type: "string",
+		expression: "optional",
+		show: function ( data ) {
+			return data.props.selectOneAndGoto && data.props.actionBeforeNavigation === 'selectValuesInField' ;
+		}
+	};
+
+	var variable = {
+		ref: "props.variable",
+		label: "Variable",
+		type: "string",
+		expression: "optional",
+		show: function ( data ) {
+			return data.props.selectOneAndGoto && data.props.actionBeforeNavigation === 'setVariable' ;
+		}
+	};
+
+	var variableValue = {
+		ref: "props.variableValue",
+		label: "Variable",
+		type: "string",
+		expression: "optional",
+		show: function ( data ) {
+			return data.props.selectOneAndGoto && data.props.actionBeforeNavigation === 'setVariable' ;
+		}
+	};
+
 	var selectionPanel = {
 		label: "Selection mode",
 		type: "items",
 		items: { 
 			selectOneAndGoto: selectOneAndGoto,
 			sheetList: sheetList,
+			actionBeforeNavigation: actionBeforeNavigation,
+			field: field,
+			value: value,
+			values: values,
+			variable: variable,
+			variableValue: variableValue,
 		}
 	};
 

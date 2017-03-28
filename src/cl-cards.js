@@ -1,27 +1,27 @@
 define([
-        'jquery',
-        'underscore',
-        'qlik',
-        './properties',
-        './initialproperties',
-        'client.utils/state',
-        './lib/js/extensionUtils',
-        './lib/js/perfect-scrollbar.min',
-        './lib/js/perfect-scrollbar.jquery.min',
-        'text!./lib/css/perfect-scrollbar.min.css',
-        'text!./lib/css/style.css',
-        'text!./lib/partials/template.html',
-        './lib/js/directives/clTouch',
-        './lib/js/directives/onLastRepeat',
-    ],
-    function($, _, qlik, props, initProps, stateUtil, extensionUtils, ps, psJqeuery, PScss, cssContent, ngTemplate) {
+    'jquery',
+    'underscore',
+    'qlik',
+    './properties',
+    './initialproperties',
+    'client.utils/state',
+    './lib/js/extensionUtils',
+    './lib/js/perfect-scrollbar.min',
+    './lib/js/perfect-scrollbar.jquery.min',
+    'text!./lib/css/perfect-scrollbar.min.css',
+    'text!./lib/css/style.css',
+    'text!./lib/partials/template.html',
+    './lib/js/directives/clTouch',
+    './lib/js/directives/onLastRepeat',
+],
+    function ($, _, qlik, props, initProps, stateUtil, extensionUtils, ps, psJqeuery, PScss, cssContent, ngTemplate) {
         'use strict';
 
         var prefix = window.location.pathname.substr(0, window.location.pathname.toLowerCase().lastIndexOf("/sense/app/"));
         extensionUtils.addStyleToHeader(cssContent);
         extensionUtils.addStyleToHeader(PScss);
 
-        console.log('Initializing - remove me', prefix);
+
 
         return {
 
@@ -38,15 +38,15 @@ define([
             },
 
 
-            resize: function( $element, layout ) {
+            resize: function ($element, layout) {
                 this.paint($element, layout);
             },
 
-            clearSelectedValues: function($element) {
+            clearSelectedValues: function ($element) {
                 console.log('clearSelectedValues', $element);
             },
 
-            paint: function($element, layout) {
+            paint: function ($element, layout) {
 
                 //var prefix = window.location.pathname.substr( 0, window.location.pathname.toLowerCase().lastIndexOf( "/sense/app/" ) + 1 );
                 console.groupCollapsed('Basic Objects');
@@ -74,7 +74,7 @@ define([
 
 
                 if (layout.qHyperCube.qDataPages[0]) {
-                    this.$scope.dataPages = _.map(layout.qHyperCube.qDataPages[0].qMatrix, function(row, idx) {
+                    this.$scope.dataPages = _.map(layout.qHyperCube.qDataPages[0].qMatrix, function (row, idx) {
                         return {
                             'id': row[0] ? row[0].qText : '',
                             'title': row[2] ? row[2].qText : '',
@@ -87,6 +87,7 @@ define([
                         }
                     });
                 }
+                return qlik.Promise.resolve();
 
             },
 
@@ -95,13 +96,12 @@ define([
             template: ngTemplate,
 
             // Angular Controller
-            controller: ['$scope', '$element', function($scope, $element) {
+            controller: ['$scope', '$element', function ($scope, $element) {
 
                 $scope.dataPages = {};
                 $scope.backendApi = {};
                 $scope.props = {};
                 $scope.selectedCount = 0;
-
 
 
                 $scope.selections = {
@@ -111,7 +111,7 @@ define([
                     values_to_select: [],
                 };
 
-                $scope.getCardSize = function() {
+                $scope.getCardSize = function () {
                     switch ($scope.props.layoutMode) {
                         case 'SMALL':
                             return 35;
@@ -124,26 +124,77 @@ define([
                     }
                 };
 
-                $scope.noInteractions = function() {
+                $scope.noInteractions = function () {
                     return !stateUtil.isInAnalysisMode();
                 };
 
-                $scope.compactLayout = function() {
+                $scope.compactLayout = function () {
                     return $element.width() < 350;
                 };
 
-                // $scope.$on('onLastRepeat', function(scope, element, attrs) {
-                //     // Do some stuffs here
-                //     $element.find('.cl-cardsview').perfectScrollbar('update');
-                // });
+                $scope.setVariable = function (variableName, variableValue) {
+                    if (!_.isEmpty(variableName) && (!_.isEmpty(variableValue))) {
+                        var app = qlik.currApp();
+                        app.variable.setContent(variableName, variableValue);
+                    }
+                };
 
-                $scope.clickCard = function($event, qElemNumber) {
+                $scope.selectValueInField = function (field, value) {
+                    if (!_.isEmpty(field) && (!_.isEmpty(value))) {
+                        var app = qlik.currApp();
+                        app.field(field).selectMatch(value, false);
+                    }
+                };
+
+                // Helper function to split numbers.
+                $scope.splitToStringNum = function (string, seperator) {
+                    var item = string.split(seperator);
+                    for (var i = 0; i < item.length; i++) {
+                        if (!isNaN(item[i])) {
+                            item[i] = Number(item[i]);
+                        }
+                    }
+                    return item;
+                };
+
+
+                $scope.selectValuesInField = function (field, values) {
+                    if (!_.isEmpty(field) && (!_.isEmpty(values))) {
+                        var app = qlik.currApp();
+                        var valuesArray = $scope.splitToStringNum(values, ';');
+                        app.field(field).selectValues(valuesArray, false).catch(function(err){
+                            console.error(err);
+                        });
+                    }
+                };
+
+                $scope.doActionBeforeNavigation = function () {
+                    switch ($scope.props.actionBeforeNavigation) {
+                        case "selectValueInField":
+                            $scope.selectValueInField($scope.props.field, $scope.props.value);
+                            break;
+                        case "selectValuesInField":
+                            $scope.selectValuesInField($scope.props.field, $scope.props.values);
+                            break;
+                        case "setVariable":
+                            $scope.setVariable($scope.props.variable, $scope.props.variableValue);
+                            break;
+                        default:
+                            break;
+                    }
+
+                };
+
+                $scope.clickCard = function ($event, qElemNumber) {
 
                     if ($scope.selectedCount == 1) {
                         $scope.backendApi.selectValues(0, [parseInt(qElemNumber)], true)
                     } else {
                         if ($scope.props.selectOneAndGoto) {
-                            $scope.backendApi.selectValues(0, [parseInt(qElemNumber)], false).then(function(reply) {
+                            $scope.backendApi.selectValues(0, [parseInt(qElemNumber)], false).then(function (reply) {
+                                if ($scope.props.actionBeforeNavigation && $scope.props.actionBeforeNavigation !== 'none') {
+                                    $scope.doActionBeforeNavigation();
+                                }
                                 //Goto sheet
                                 if (!_.isEmpty($scope.props.selectedSheet)) {
                                     qlik.navigation.gotoSheet($scope.props.selectedSheet);
@@ -156,7 +207,7 @@ define([
                     }
                 };
 
-                $scope.onSwipeStart = function($event) {
+                $scope.onSwipeStart = function ($event) {
 
                     if (!$scope.props.selectOneAndGoto) {
                         $scope.selections.values_to_select = [];
@@ -182,7 +233,7 @@ define([
                     }
                 };
 
-                $scope.onSwipeUpdate = function($event) {
+                $scope.onSwipeUpdate = function ($event) {
 
                     if (!$scope.props.selectOneAndGoto) {
                         var target = $($event.originalEvent.target);
@@ -223,7 +274,7 @@ define([
                     }
                 };
 
-                $scope.onSwipeCancel = function($event) {
+                $scope.onSwipeCancel = function ($event) {
 
                     if (!$scope.props.selectOneAndGoto) {
                         console.log('swipecancel event called', $event);
@@ -231,7 +282,7 @@ define([
                     }
                 };
 
-                $scope.onSwipe = function($event) {
+                $scope.onSwipe = function ($event) {
 
                     if (!$scope.props.selectOneAndGoto) {
 

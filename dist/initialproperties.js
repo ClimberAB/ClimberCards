@@ -1,1 +1,0 @@
-define([],function(){"use strict";return{props:{layoutMode:"MEDIUM",imageLayout:"LANDSCAPE",imageSizeMode:"CONTAIN",selectOneAndGoto:!1,selectedSheet:""},qHyperCubeDef:{qDimensions:[],qMeasures:[],qInitialDataFetch:[{qWidth:5,qHeight:50}]}}});

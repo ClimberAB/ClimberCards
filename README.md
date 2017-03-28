@@ -25,9 +25,9 @@ Landscape
 
 # Selection modes
 It is possible to use selections to go to another sheet. 
-When "Select and goto sheet" is enabled, swipe selections are disabled. (I.e. it is only possible to select one row in the table.) If one value is already selected it will be deselected and no goto sheet action taken.
-![Alt text](/screenshots/propertypanel_selectionmode.PNG?raw=true "Selection mode - Selections")
-![Alt text](/screenshots/propertypanel_selectionmode_gotosheet.PNG?raw=true "Selection mode - Select and goto sheet")
+When "Select and goto sheet" is enabled, swipe selections are disabled. (I.e. it is only possible to select one row in the table.) If one value is already selected it will be deselected and no goto sheet action taken.  
+![Alt text](/screenshots/propertypanel_selectionmode.PNG?raw=true "Selection mode - Selections")  
+![Alt text](/screenshots/propertypanel_selectionmode_gotosheet.PNG?raw=true "Selection mode - Select and goto sheet")  
 # Layout modes
 See large screenshots above for examples on how the different options display.
 ![Alt text](/screenshots/propertypanel_layoutmode.PNG?raw=true "Layout modes")
