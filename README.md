@@ -29,7 +29,7 @@ When "Select and goto sheet" is enabled, swipe selections are disabled. (I.e. it
 ![Alt text](/screenshots/propertypanel_selectionmode.PNG?raw=true "Selection mode - Selections")  
 ![Alt text](/screenshots/propertypanel_selectionmode_gotosheet.PNG?raw=true "Selection mode - Select and goto sheet")  
 # Layout modes  
-See large screenshots above for examples on how the different options display.
+See large screenshots above for examples on how the different options display.  
 ![Alt text](/screenshots/propertypanel_layoutmode.PNG?raw=true "Layout modes")  
 
 Layout mode options
