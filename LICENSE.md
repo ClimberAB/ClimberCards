@@ -35,17 +35,23 @@
 
 These external libraries are used within this solution. Many thanks to the authors!
 
-**Library 1**
-* Name:
-* License:
-* Url:
-* Author:
+**extensionUtils**
+* Name: extensionUtils
+* License: The MIT License (MIT) Copyright (c) 2015
+* Url: https://github.com/stefanwalther/sense-extension-utils
+* Author: Stefan Walther
 
-**Library 2**
-* Name:
-* License:
-* Url:
-* Author:
+**lodash**
+* Name:lodash
+* License: The MIT License (MIT)
+* Url: https://lodash.com/
+* Author: Jeremy Ashkenas
+
+**perfect-scrollbar**
+* Name:perfect-scrollbar
+* License: The MIT License (MIT) Copyright (c) 2012-2016
+* Url: https://noraesae.github.io/perfect-scrollbar/
+* Author: Hyunje Jun
 
 ---
 

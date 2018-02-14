@@ -36,7 +36,7 @@ Layout mode options
 * Small
 * Medium
 * Large
-
+  
 Image mode options
 * Portrait
 * Landscape
@@ -50,6 +50,21 @@ Image Size mode options
 
 Sample app can be found here under the project folders \sample app\Cards.qvf.  
 
+## Climber Extensions
+Like this extension? Check out the other Climber made extensions below.
+
+**Custom Report**
+* https://github.com/ClimberAB/ClimberCustomReport
+* https://www.youtube.com/watch?v=mCb2t4aNppE
+
+**Selection Bar**
+* https://github.com/ClimberAB/ClimberSelectionBar
+* https://www.youtube.com/watch?v=4fxrphADRKw
+
+**KPI**
+* https://github.com/ClimberAB/ClimberKPI
+* https://www.youtube.com/watch?v=9zdfYshNel4
+
 ## Contributing
 Contributing to this project is welcome. The process to do so is outlined below:
 
@@ -61,14 +76,16 @@ I cannot guarantee that I will merge all PRs.
 
 ## Author
 
-**Karl Fredberg Sjöstrand**
-**Karl Fredberg Sjöstrand @ Climber**
 * http://github.com/ClimberAB
 
 
 ## Change Log
 
 See [CHANGELOG](CHANGELOG.yml)
+
+## Known Issues and Limitations
+
+The extension is intended for top lists and dashboard. Because of that we have not included support for very large tables. The limit is currently 10' cells.
 
 ## License & Copyright
 The software is made available "AS IS" without any warranty of any kind under the MIT License (MIT).
