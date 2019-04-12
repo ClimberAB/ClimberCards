@@ -1,0 +1,17 @@
+{
+  "name": "ClimberCards",
+  "version": "1.5.0",
+  "main": "main.js",
+  "private": false,
+  "repository": "https://github.com/ClimberAB/ClimberCards",
+  "bugs": "https://github.com/ClimberAB/ClimberCards/issues",
+  "homepage": "",
+  "author": "Karl Fredberg Sjöstrand",
+  "license": "Copyright Climber AB",
+  "scripts": {
+    "release": "node main.js"
+  },
+  "devDependencies": {
+    "gh-release": "^3.2.0"
+  }
+}
