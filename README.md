@@ -1,5 +1,5 @@
-# Climber Cards
-<a href="http://www.climberextensions.com/" class="image_link"  target="_blank"><img src="./screenshots/downloadbutton.png?raw=true" 
+# Climber Cards (Deprecated and replaced with Vizlib Tiles)
+<a href="https://home.vizlib.com/vizlib-self-service-for-qlik-sense/" class="image_link"  target="_blank"><img src="./screenshots/downloadbutton.png?raw=true" 
 alt="Download latest release" width="400" height="40" border="0" /></a>
 
 ## Most recent update 1.5.0 - 2019-02-21
